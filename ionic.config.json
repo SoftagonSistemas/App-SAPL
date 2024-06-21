@@ -1,0 +1,7 @@
+{
+  "name": "hermes-webvue",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}

@@ -1,0 +1,10 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "hermes-webvue",
+	"webDir": "dist",
+	"cordova": {
+		"preferences": {
+		 
+		}
+	  }
+}
