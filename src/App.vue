@@ -1,50 +1,35 @@
-<template>
-  <ion-page>
-    <ion-content>
-      <p>Please Wait...</p>
-    </ion-content>
-  </ion-page>
-</template>
+<script setup lang="ts">
+import { IonContent, IonPage } from '@ionic/vue'
+import { Browser } from '@capacitor/browser'
+import { App } from '@capacitor/app'
+import { onMounted } from 'vue'
 
-<script lang="ts">
-import { IonContent, IonPage } from '@ionic/vue';
+onMounted(async () => {
+  await App.addListener('backButton', ({ canGoBack }) => {
+    if (!canGoBack) {
+      App.exitApp()
+    }
+  })
 
-// /** Capacitor Plugin */
-// import { Browser } from '@capacitor/browser';
+  const currentDate = new Date()
+  const year = currentDate.getFullYear()
+  const month = currentDate.getMonth() + 1
+  const day = currentDate.getDate()
 
-/** Cordova Plugin */
-import { InAppBrowser, InAppBrowserObject } from '@awesome-cordova-plugins/in-app-browser';
-import { App } from '@capacitor/app';
-import { onMounted } from 'vue';
-export default {
-  components: {
-    IonPage, IonContent
-  },
-  setup() {
-    onMounted(async () => {
-      await App.addListener('backButton', ({ canGoBack }) => {
-        if (!canGoBack) {
-          App.exitApp();
-        }
-      });
+  const sapl = '`https://sapl.salitre.ce.leg.br'
+  const url = `${sapl}/sessao/pesquisar-sessao?data_inicio__year=${year}&data_inicio__month=${month}&data_inicio__day=${day}&tipo=&salvar=Pesquisar`
 
-      const url = 'https://sapl.salitre.ce.leg.br/sessao/pesquisar-sessao?data_inicio__year=2024';
-
-      //** Cordova Plugin Implementation */
-      const browserInstance: InAppBrowserObject = await InAppBrowser.create(url, "blank", "toolbar=no,location=no,zoom=no");
-      browserInstance.on("exit").subscribe(exit => {
-        console.log("Browser Exited", exit);
-        App.exitApp();
-      });
-
-      // //** Capacitor Plugin Implementation  */
-      //    await Browser.open({ url});
-      //    Browser.addListener("browserFinished" , () =>{
-      //    App.exitApp();
-      // })
-    });
-  }
-}
+  await Browser.open({ url })
+  Browser.addListener('browserFinished', () => {
+    App.exitApp()
+  })
+})
 </script>
 
-<style scoped></style>
+<template>
+  <IonPage>
+    <IonContent>
+      <p>Softagon Sistemas</p>
+    </IonContent>
+  </IonPage>
+</template>
