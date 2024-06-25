@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">hermes-webvue</string>
-    <string name="title_activity_main">hermes-webvue</string>
-    <string name="package_name">io.ionic.starter</string>
-    <string name="custom_url_scheme">io.ionic.starter</string>
+    <string name="app_name">sapl-salitre</string>
+    <string name="title_activity_main">sapl-salitre</string>
+    <string name="package_name">sapl.salitre.softagon.app</string>
+    <string name="custom_url_scheme">sapl.salitre.softagon.app</string>
 </resources>
