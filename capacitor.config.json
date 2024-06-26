@@ -1,5 +1,5 @@
 {
-	"appId": "io.ionic.starter",
+	"appId": "salitre.sapl.softagon.app",
 	"appName": "sapl-salitre",
 	"webDir": "dist",
 	"cordova": {
