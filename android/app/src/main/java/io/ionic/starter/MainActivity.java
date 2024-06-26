@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package salitre.sapl.softagon.app;
 
 import com.getcapacitor.BridgeActivity;
 

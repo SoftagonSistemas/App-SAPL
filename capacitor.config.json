@@ -1,10 +1,8 @@
 {
-	"appId": "io.ionic.starter",
-	"appName": "hermes-webvue",
+	"appId": "salitre.sapl.softagon.app",
+	"appName": "sapl-salitre",
 	"webDir": "dist",
 	"cordova": {
-		"preferences": {
-		 
-		}
-	  }
+		"preferences": {}
+	}
 }
