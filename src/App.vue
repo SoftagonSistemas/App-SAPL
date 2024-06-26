@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { IonButton, IonContent, IonPage } from '@ionic/vue'
-import { Browser } from '@capacitor/browser'
+import { IonContent, IonPage } from '@ionic/vue'
+import type { InAppBrowserObject } from '@awesome-cordova-plugins/in-app-browser'
+import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser'
 import { App } from '@capacitor/app'
-import { onMounted, ref } from 'vue'
-
-const showExitButton = ref(false)
+import { onMounted } from 'vue'
 
 onMounted(async () => {
   await App.addListener('backButton', ({ canGoBack }) => {
@@ -21,12 +20,11 @@ onMounted(async () => {
   const sapl = 'https://sapl.salitre.ce.leg.br'
   const url = `${sapl}/sessao/pesquisar-sessao?data_inicio__year=${year}&data_inicio__month=${month}&data_inicio__day=${day}&tipo=&salvar=Pesquisar`
 
-  await Browser.open({ url })
-
-  // Adicione um atraso antes de mostrar o botão de saída
-  setTimeout(() => {
-    showExitButton.value = true
-  }, 5000) // 5 segundos
+  const browserInstance: InAppBrowserObject = await InAppBrowser.create(url, 'blank', 'toolbar=no,location=no,zoom=no')
+  browserInstance.on('exit').subscribe((exit) => {
+    console.log('Browser Exited', exit)
+    App.exitApp()
+  })
 })
 </script>
 
@@ -34,9 +32,6 @@ onMounted(async () => {
   <IonPage>
     <IonContent>
       <p>Softagon Sistemas</p>
-      <IonButton v-if="showExitButton" @click="App.exitApp">
-        Sair do Aplicativo
-      </IonButton>
     </IonContent>
   </IonPage>
 </template>
