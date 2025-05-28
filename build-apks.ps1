@@ -37,6 +37,24 @@ Write-Host "📱 Gerando APK Mobile (Android 10)..." -ForegroundColor Blue
 Write-Host "📺 Gerando APK TV (Android 11)..." -ForegroundColor Magenta
 .\gradlew.bat assembleTvRelease
 
+# Assinar APKs com certificado debug
+Write-Host "🔐 Assinando APKs..." -ForegroundColor Yellow
+$env:ANDROID_SDK = "C:\Users\$env:USERNAME\AppData\Local\Android\Sdk"
+
+# Assinar APK Mobile
+$MOBILE_APK_PATH = "app\build\outputs\apk\mobile\release\SAPL-mobile-release-v1.0-mobile.apk"
+if (Test-Path $MOBILE_APK_PATH) {
+    Write-Host "🔐 Assinando APK Mobile..." -ForegroundColor Cyan
+    & "$env:ANDROID_SDK\build-tools\35.0.0\apksigner.bat" sign --ks "app\debug.keystore" --ks-pass pass:android --key-pass pass:android --ks-key-alias androiddebugkey $MOBILE_APK_PATH
+}
+
+# Assinar APK TV
+$TV_APK_PATH = "app\build\outputs\apk\tv\release\SAPL-tv-release-v1.0-tv.apk"
+if (Test-Path $TV_APK_PATH) {
+    Write-Host "🔐 Assinando APK TV..." -ForegroundColor Cyan
+    & "$env:ANDROID_SDK\build-tools\35.0.0\apksigner.bat" sign --ks "app\debug.keystore" --ks-pass pass:android --key-pass pass:android --ks-key-alias androiddebugkey $TV_APK_PATH
+}
+
 # Verificar se os APKs foram gerados
 Write-Host "✅ Verificando APKs gerados..." -ForegroundColor Green
 
