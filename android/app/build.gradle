@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace "salitre.sapl.softagon.app"
+    namespace "generico.sapl.softagon.app"
     compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "salitre.sapl.softagon.app"
+        applicationId "generico.sapl.softagon.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
