@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 android {
     namespace "generico.sapl.softagon.app"
     compileSdk rootProject.ext.compileSdkVersion
+    
     defaultConfig {
         applicationId "generico.sapl.softagon.app"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -16,10 +17,66 @@ android {
             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+
+    flavorDimensions "device"
+    
+    productFlavors {
+        mobile {
+            dimension "device"
+            applicationIdSuffix ".mobile"
+            minSdkVersion rootProject.ext.mobileMinSdkVersion
+            targetSdkVersion rootProject.ext.mobileTargetSdkVersion
+            versionNameSuffix "-mobile"
+            
+            manifestPlaceholders = [
+                appName: "SAPL Mobile",
+                screenOrientation: "portrait"
+            ]
+        }
+        
+        tv {
+            dimension "device"
+            applicationIdSuffix ".tv"
+            minSdkVersion rootProject.ext.tvMinSdkVersion
+            targetSdkVersion rootProject.ext.tvTargetSdkVersion
+            versionNameSuffix "-tv"
+            
+            manifestPlaceholders = [
+                appName: "SAPL TV",
+                screenOrientation: "landscape"
+            ]
+        }
+    }
+    
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            
+            // Configuração dos nomes dos APKs
+            android.applicationVariants.all { variant ->
+                variant.outputs.all {
+                    def flavor = variant.flavorName
+                    def buildType = variant.buildType.name
+                    def versionName = variant.versionName
+                    def versionCode = variant.versionCode
+                    
+                    outputFileName = "SAPL-${flavor}-${buildType}-v${versionName}.apk"
+                }
+            }
+        }
+        
+        debug {
+            android.applicationVariants.all { variant ->
+                variant.outputs.all {
+                    def flavor = variant.flavorName
+                    def buildType = variant.buildType.name
+                    def versionName = variant.versionName
+                    def versionCode = variant.versionCode
+                    
+                    outputFileName = "SAPL-${flavor}-${buildType}-v${versionName}.apk"
+                }
+            }
         }
     }
 }

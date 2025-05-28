@@ -10,7 +10,11 @@
     "preview": "vite preview",
     "test:e2e": "cypress run",
     "test:unit": "vitest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "build:mobile": "npm run build && npx cap copy android && cd android && gradlew assembleMobileRelease",
+    "build:tv": "npm run build && npx cap copy android && cd android && gradlew assembleTvRelease",
+    "build:both": "npm run build && npx cap copy android && cd android && gradlew assembleMobileRelease assembleTvRelease",
+    "build:apks": "powershell -ExecutionPolicy Bypass -File build-apks.ps1"
   },
   "dependencies": {
     "@capacitor/android": "^6.2.1",

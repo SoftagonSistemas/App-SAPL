@@ -22,6 +22,12 @@ allprojects {
         google()
         mavenCentral()
     }
+    
+    // Forçar Java 21 para todos os subprojetos
+    tasks.withType(JavaCompile) {
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+    }
 }
 
 task clean(type: Delete) {
