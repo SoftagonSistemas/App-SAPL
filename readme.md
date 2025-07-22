@@ -100,11 +100,11 @@ Browser.addListener('browserFinished', () => {
 2. Execute o comando:
 
 ```bash
-npx @capacitor/assets generate \
-  --iconBackgroundColor '#eeeeee' \
-  --iconBackgroundColorDark '#222222' \
-  --splashBackgroundColor '#eeeeee' \
-  --splashBackgroundColorDark '#111111' \
+npx @capacitor/assets generate 
+  --iconBackgroundColor '#00C8F0' 
+  --iconBackgroundColorDark '#0084B4' 
+  --splashBackgroundColor '#FECF27' 
+  --splashBackgroundColorDark '#FF632F' 
   --android
 ```
 

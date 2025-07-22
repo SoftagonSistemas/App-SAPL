@@ -39,7 +39,7 @@ android {
             
             manifestPlaceholders = [
                 appName: "SAPL Mobile",
-                screenOrientation: "portrait"
+                screenOrientation: "landscape"
             ]
         }
         
@@ -111,6 +111,15 @@ dependencies {
 }
 
 apply from: 'capacitor.build.gradle'
+
+// Resolução da ambiguidade de tarefas para o Android Studio
+task assembleDebugUnitTest {
+    dependsOn 'assembleMobileDebugUnitTest'
+}
+
+task assembleDebugAndroidTest {
+    dependsOn 'assembleMobileDebugAndroidTest'
+}
 
 try {
     def servicesJSON = file('google-services.json')
