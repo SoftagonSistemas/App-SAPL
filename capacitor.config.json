@@ -1,8 +1,8 @@
 {
-	"appId": "salitre.sapl.softagon.app",
-	"appName": "sapl-salitre",
-	"webDir": "dist",
-	"cordova": {
-		"preferences": {}
-	}
+  "appId": "generico.sapl.softagon.app",
+  "appName": "SAPL-Softagon",
+  "webDir": "dist",
+  "cordova": {
+    "preferences": {}
+  }
 }

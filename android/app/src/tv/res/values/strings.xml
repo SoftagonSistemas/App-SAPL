@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SAPL TV</string>
+    <string name="title_activity_main">SAPL TV</string>
+    <string name="package_name">generico.sapl.softagon.app.tv</string>
+</resources>

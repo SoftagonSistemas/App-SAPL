@@ -1,10 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace "salitre.sapl.softagon.app"
+    namespace "generico.sapl.softagon.app"
     compileSdk rootProject.ext.compileSdkVersion
+    
     defaultConfig {
-        applicationId "salitre.sapl.softagon.app"
+        applicationId "generico.sapl.softagon.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -16,10 +17,77 @@ android {
             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+
+    signingConfigs {
+        debug {
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+    }
+
+    flavorDimensions "device"
+    
+    productFlavors {
+        mobile {
+            dimension "device"
+            applicationIdSuffix ".mobile"
+            minSdkVersion rootProject.ext.mobileMinSdkVersion
+            targetSdkVersion rootProject.ext.mobileTargetSdkVersion
+            versionNameSuffix "-mobile"
+            
+            manifestPlaceholders = [
+                appName: "SAPL Mobile",
+                screenOrientation: "landscape"
+            ]
+        }
+        
+        tv {
+            dimension "device"
+            applicationIdSuffix ".tv"
+            minSdkVersion rootProject.ext.tvMinSdkVersion
+            targetSdkVersion rootProject.ext.tvTargetSdkVersion
+            versionNameSuffix "-tv"
+            
+            manifestPlaceholders = [
+                appName: "SAPL TV",
+                screenOrientation: "landscape"
+            ]
+        }
+    }
+    
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug  // Using debug signing for now
+            
+            // Configuração dos nomes dos APKs
+            android.applicationVariants.configureEach { variant ->
+                variant.outputs.configureEach { output ->
+                    def flavor = variant.flavorName
+                    def buildType = variant.buildType.name
+                    def versionName = variant.versionName
+                    def versionCode = variant.versionCode
+                    
+                    outputFileName = "SAPL-${flavor}-${buildType}-v${versionName}.apk"
+                }
+            }
+        }
+        
+        debug {
+            signingConfig signingConfigs.debug
+            android.applicationVariants.configureEach { variant ->
+                variant.outputs.configureEach { output ->
+                    def flavor = variant.flavorName
+                    def buildType = variant.buildType.name
+                    def versionName = variant.versionName
+                    def versionCode = variant.versionCode
+                    
+                    outputFileName = "SAPL-${flavor}-${buildType}-v${versionName}.apk"
+                }
+            }
         }
     }
 }
@@ -43,6 +111,15 @@ dependencies {
 }
 
 apply from: 'capacitor.build.gradle'
+
+// Resolução da ambiguidade de tarefas para o Android Studio
+task assembleDebugUnitTest {
+    dependsOn 'assembleMobileDebugUnitTest'
+}
+
+task assembleDebugAndroidTest {
+    dependsOn 'assembleMobileDebugAndroidTest'
+}
 
 try {
     def servicesJSON = file('google-services.json')
