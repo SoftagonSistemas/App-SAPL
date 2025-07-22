@@ -61,6 +61,16 @@ Write-Host "✅ Verificando APKs gerados..." -ForegroundColor Green
 $MOBILE_APK = "app\build\outputs\apk\mobile\release\SAPL-mobile-release-v1.0-mobile.apk"
 $TV_APK = "app\build\outputs\apk\tv\release\SAPL-tv-release-v1.0-tv.apk"
 
+# Gerar data atual no formato YYYY-MM-DD
+$TODAY = Get-Date -Format "yyyy-MM-dd"
+
+# Criar pasta apks na raiz do projeto
+$ROOT_APK_DIR = "..\apks"
+if (!(Test-Path $ROOT_APK_DIR)) {
+    New-Item -ItemType Directory -Path $ROOT_APK_DIR -Force | Out-Null
+    Write-Host "📁 Pasta 'apks' criada na raiz do projeto" -ForegroundColor Yellow
+}
+
 Write-Host "=================================================" -ForegroundColor Yellow
 Write-Host "📂 APKs GERADOS COM SUCESSO!" -ForegroundColor Green
 
@@ -68,6 +78,11 @@ if (Test-Path $MOBILE_APK) {
     $mobileSize = (Get-Item $MOBILE_APK).Length / 1MB
     Write-Host "✅ 📱 APK Mobile: $MOBILE_APK" -ForegroundColor Green
     Write-Host "   Tamanho: $([math]::Round($mobileSize, 2)) MB" -ForegroundColor Cyan
+    
+    # Copiar APK Mobile para a raiz com data
+    $mobileDestination = "$ROOT_APK_DIR\SAPL-mobile-v1.0-$TODAY.apk"
+    Copy-Item $MOBILE_APK $mobileDestination -Force
+    Write-Host "📋 APK Mobile copiado para: apks\SAPL-mobile-v1.0-$TODAY.apk" -ForegroundColor Cyan
 } else {
     Write-Host "❌ Erro: APK Mobile não foi gerado" -ForegroundColor Red
 }
@@ -76,17 +91,23 @@ if (Test-Path $TV_APK) {
     $tvSize = (Get-Item $TV_APK).Length / 1MB
     Write-Host "✅ 📺 APK TV: $TV_APK" -ForegroundColor Green
     Write-Host "   Tamanho: $([math]::Round($tvSize, 2)) MB" -ForegroundColor Cyan
+    
+    # Copiar APK TV para a raiz com data
+    $tvDestination = "$ROOT_APK_DIR\SAPL-tv-v1.0-$TODAY.apk"
+    Copy-Item $TV_APK $tvDestination -Force
+    Write-Host "📋 APK TV copiado para: apks\SAPL-tv-v1.0-$TODAY.apk" -ForegroundColor Cyan
 } else {
     Write-Host "❌ Erro: APK TV não foi gerado" -ForegroundColor Red
 }
 
 Write-Host "=================================================" -ForegroundColor Yellow
 Write-Host "🎉 BUILD CONCLUÍDO COM SUCESSO!" -ForegroundColor Green
-Write-Host "APKs disponiveis em: android\app\build\outputs\apk\" -ForegroundColor Cyan
+Write-Host "APKs originais em: android\app\build\outputs\apk\" -ForegroundColor Cyan
+Write-Host "APKs copiados para: apks\" -ForegroundColor Green
 Write-Host ""
 Write-Host "INSTALACAO:" -ForegroundColor Yellow
-Write-Host "   Mobile: adb install `"$MOBILE_APK`"" -ForegroundColor White
-Write-Host "   TV:     adb install `"$TV_APK`"" -ForegroundColor White
+Write-Host "   Mobile: adb install `"apks\SAPL-mobile-v1.0-$TODAY.apk`"" -ForegroundColor White
+Write-Host "   TV:     adb install `"apks\SAPL-tv-v1.0-$TODAY.apk`"" -ForegroundColor White
 
 # Voltar ao diretório raiz
 Set-Location ..
